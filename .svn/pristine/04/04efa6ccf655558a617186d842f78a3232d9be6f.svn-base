@@ -1,0 +1,165 @@
+
+/*
+ * Introduction to Software Design 2014
+ * Author: Andrew Goettler
+ * Problem: 25.13 Creating a Color Chooser: Modification (p. 1044)
+ * Problem difficulty: Hard
+ * Problem description: Modify the application in Exercise 25.12 to draw the current color as a
+ * 		rectangle on an instance of a subclass of JPanel which provides its own paint-Component
+ * 		method to draw the rectangle and provides set methods to set the red, green, and blue
+ * 		values for the current color. When any set method is invoked, the drawing panel should
+ * 		should automatically repaint itself.
+ */
+
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+/**
+ * A JFrame displaying a colored rectangle along with sliders and textfields for setting the 
+ * color of the rectangle using RGB values.
+ * 
+ * @author agoettler
+ *
+ */
+public class ColorChooserFrame extends JFrame
+{
+	/**
+	 * ID number for serialization
+	 */
+	private static final long serialVersionUID = -1982661008601786406L;
+	/**
+	 * GridBagLayout for organizing the frame elements.
+	 */
+	private GridBagLayout chooserLayout;
+	/**
+	 * GridBagConstraints for organizing the frame elements.
+	 */
+	private GridBagConstraints chooserConstraints;
+	/**
+	 * JTextArea for labeling the red slider and text box.
+	 */
+	private JTextArea redLabel;
+	/**
+	 * JTextArea for labeling the green slider and text box.
+	 */
+	private JTextArea greenLabel;
+	/**
+	 * JTextArea for labeling the blue slider and text box.
+	 */
+	private JTextArea blueLabel;
+	/**
+	 * JSlider for adjusting the red color value.
+	 */
+	private JSlider redSlider;
+	/**
+	 * JSlider for adjusting the green color value.
+	 */
+	private JSlider greenSlider;
+	/**
+	 * JSlider for adjusting the blue color value.
+	 */
+	private JSlider blueSlider;
+	/**
+	 * JTextField for displaying and adjusting the red color value.
+	 */
+	private JTextField redText;
+	/**
+	 * JTextField for displaying and adjusting the green color value.
+	 */
+	private JTextField greenText;
+	/**
+	 * JTextField for displaying and adjusting the blue color value.
+	 */
+	private JTextField blueText;
+	/**
+	 * ColorPanel for displaying a rectangle of the specified color.
+	 */
+	private ColorPanel rectanglePanel;
+	
+	/**
+	 * This no-argument constructor instantiates a new ColorChooserFrame object.
+	 */
+	public ColorChooserFrame()
+	{
+		super("Color Chooser"); // use superclass constructor
+		
+		chooserLayout = new GridBagLayout();
+		this.setLayout(chooserLayout);
+		
+		chooserConstraints = new GridBagConstraints();
+		
+		// set up labels
+		colorLabelCreator(redLabel, "Red");
+		colorLabelCreator(greenLabel, "Green");
+		colorLabelCreator(blueLabel, "Blue");
+		
+		// set up sliders
+		colorSliderCreator(redSlider);
+		colorSliderCreator(greenSlider);
+		colorSliderCreator(blueSlider);
+		
+		// set up fields
+		
+	}
+	
+	private void colorLabelCreator(JTextArea colorLabel, String label)
+	{
+		// creates a new JTextArea object with 1 row and 5 columns
+		colorLabel = new JTextArea(label, 1, 5);
+		colorLabel.setEnabled(false);
+	}
+	
+	private void  colorSliderCreator(JSlider colorSlider)
+	{
+		// create a new JSlider object with a min of 0, max of 255, and default of 0
+		colorSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0);
+		// set major ticks every 10
+		colorSlider.setMajorTickSpacing(10);
+		// set minor ticks every 5
+		colorSlider.setMinorTickSpacing(5);
+		colorSlider.setPaintTicks(true);
+		
+		// register an event listener for the specified slider
+		colorSlider.addChangeListener
+		(
+				// anonymous inner class
+				new ChangeListener()
+				{
+					public void stateChanged(ChangeEvent SliderEvent)
+					{
+						
+					}
+				}
+		);
+		
+		
+	}
+	
+	private void colorFieldCreator(JTextField colorField)
+	{
+		// create a new JTextField object with 3 columns
+		colorField = new JTextField(3);
+		
+		// register event handler
+		
+	}
+	
+	private void addComponent(Component component, int row, int column, int width, int height)
+	{
+		chooserConstraints.gridy = row;
+		chooserConstraints.gridx = column;
+		chooserConstraints.gridwidth = width;
+		chooserConstraints.gridheight = height;
+		chooserLayout.setConstraints(component, chooserConstraints);
+		this.add(component);
+	}
+}
